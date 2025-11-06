@@ -1,0 +1,733 @@
+\pdfoutput=1
+\documentclass[11pt]{article}
+
+% Page and typography
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage{hyperref}
+
+% Math and refs
+\usepackage{amsmath,amssymb,mathtools,amsfonts}
+\usepackage{amsthm}
+\usepackage{bm}
+
+% Theorem-like environments
+\theoremstyle{definition}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{example}{Example}
+\theoremstyle{remark}
+\newtheorem*{remark*}{Remark}
+
+% Macros
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\sphere}{S^{N-1}}
+\newcommand{\uh}{\hat{u}}
+\newcommand{\pv}{\vec{p}}
+\newcommand{\xv}{\vec{x}}
+\newcommand{\vv}{\vec{v}}
+\newcommand{\vh}{\hat{v}}
+\newcommand{\dd}{\,\mathrm{d}}
+\newcommand{\gv}{\vec{g}}
+\newcommand{\gray}{\vec{g}_{\mathrm{ray}}}
+
+\setlength{\parskip}{1em}
+\setlength{\parindent}{0pt}
+
+\title{Ray-Based Modeling of Gravitational Fields}
+\author{Gerard Torrent--Gironella\\ \small\texttt{gerard@generacio.com}}
+\date{November 5, 2025}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+We propose a novel ray-based framework for modeling gravitational fields, 
+where the field at an observation point is defined as the aggregation of 
+line-integrated mass contributions along all incoming directions. In the 
+static case, this formulation reproduces the classical Newtonian 
+inverse-square law, demonstrating consistency with established gravitational 
+theory. A preliminary exploration suggests that the framework may be 
+extended to account for relativistic effects, incorporating special-relativistic 
+aberration and retarded times to describe the influence of uniformly moving 
+sources. This work represents an initial step in ray-based gravitational 
+modeling, open to further refinement and generalization.
+\end{abstract}
+
+\section{Introduction}
+
+This paper presents a preliminary exploration of ray-based representation of 
+the gravitational field. The viewpoint is strictly local at the observation 
+point $\pv$, which is assumed to access only the mass traversed by each 
+incoming direction.
+With no other knowledge about global distribution, the gravitational 
+field at $\pv$ is defined to be the aggregation of these directional 
+contributions multiplied by an absorption factor. For clarity, the amount of 
+mass traversed by a ray is obtained as the line integral of the mass density 
+over that ray. As a heuristic---and only as a possible explanatory device, not 
+an ontological claim---one may picture non-interacting \emph{tracers} of 
+invariant speed $c$ that traverse matter without perturbing it and carry a 
+counter proportional to the traversed mass.
+
+The static case is first formulated by defining the field as a direction-weighted 
+integral of line-integrated density. The definition is illustrated with a simple 
+example, for which the field reduces to the familiar inverse-square law. We then 
+establish the equivalence between the ray-based expression and the classical 
+Newtonian formulation.
+
+Next, we incorporate finite propagation and uniform source motion. The kinematics 
+is organized through special-relativistic aberration of directions between the 
+observation frame and a co-moving integration frame, together with retarded time 
+along each ray. This leads to a mixed-frame definition that can be reformulated 
+entirely within the moving frame. A worked example suggest consistency with 
+the linearized Liénard--Wiechert field.
+
+We conclude with a brief final section that merely points to possible avenues 
+for further investigation. These pointers are deliberately high-level and 
+speculative, offered as indications of where the framework might be extended 
+rather than as claims or detailed developments.
+
+\section{Static case}
+
+\begin{definition}
+
+Let $\rho(\xv)$ be a mass density supported in a domain $V\subset\R^N$, $N\ge 3$. 
+Outside this domain the density is zero, $\rho(\xv)=0$ for $\xv\notin V$.
+
+We define the \emph{ray-based gravitational field} by
+\begin{equation}
+\boxed{
+\gray(\pv) = 
+-G \int_{\Omega} \left(\int_{L(\pv,\uh)} \rho(\xv)\,\dd \ell\right)\uh\,\dd\Omega}
+\label{eq:rayfield-static}
+\end{equation}
+
+where $\pv \in \R^N$, $\Omega=\sphere$ is the unit angular domain, $L(\pv,\uh)$ is the ray 
+$\{\,\pv+c\;t\,\uh:\ t\le 0\,\}$, $\dd\ell$ is the arc length along the ray, and
+$G$ is a coupling factor.
+
+\end{definition}
+\vspace{1em}
+
+\begin{example}
+
+Let $V$ be a solid sphere of radius $R$ and total mass $M$ with constant density 
+$\rho_0=\frac{3M}{4\pi R^3}$. Compute the ray-based gravitational field at a point 
+located at distance $D > R$ from the sphere's center.
+
+We perform a translation to place the point $\pv$ at the origin, followed by a 
+rotation to place the sphere's center along the positive z-axis. These changes 
+result in $\pv=\vec{0}$, and the center of the sphere at $\vec{c}=D\,\hat{d}$, 
+where $\hat{d}=\hat{z}$ is the unit vector from $\pv$ to the sphere's center.
+
+For each unit direction $\uh$ with polar angle $\theta$ measured 
+from $\hat{d}$, parameterize the ray by arc length $s = -c\;t$ with $s\ge 0$:
+\[
+\xv(\uh,s)=\pv-s\,\uh=-s\,\uh,
+\qquad
+\dd\ell=\dd s
+\]
+
+The ray intersects the sphere when $\|\xv(\uh,s)-\vec{c}\|=R$, i.e.
+\[
+\|-s\,\uh-D\,\hat{d}\|^2 = s^2 + 2 D s\,(\uh\!\cdot\!\hat{d}) + D^2 = R^2
+\]
+
+Writing $\cos\theta=\uh\!\cdot\!\hat{d}$, the intersection parameters are the roots
+\[
+s_\pm(\theta)=-D\cos\theta \pm \sqrt{R^2 - D^2\sin^2\theta}
+\]
+
+which are real iff $D\sin\theta\le R$, i.e. $\theta\in[\theta_0,\pi]$ with 
+$\theta_0=\pi - \arcsin(R/D)$. For such directions, the line-integrated density equals the 
+chord length inside the sphere times $\rho_0$:
+\[
+\int_{L(\pv,\uh)}\rho_0\,\dd\ell
+=\int_{s_-}^{s_+}\rho_0\,\dd s
+=\rho_0\,L(\theta),
+\qquad
+L(\theta)=s_+ - s_- = 2\sqrt{R^2 - D^2\sin^2\theta}
+\]
+
+By symmetry, $\gray(\pv)$ is parallel to $\hat{d}$. Using spherical coordinates around 
+$\hat{d}$, $\dd\Omega=\sin\theta\,\dd\theta\,\dd\phi$, the ray-based field is
+\[
+\gray(\pv)
+= -G\,\rho_0\,\hat{d}\int_0^{2\pi}\!\!\int_{\theta_0}^{\pi}
+L(\theta)\,\underbrace{\cos\theta}_{\uh\cdot\hat{d}}\,\underbrace{\sin\theta\,\dd\theta\,\dd\phi}_{\dd\Omega}
+\]
+
+Substituting $L(\theta)=2\sqrt{R^2 - D^2\sin^2\theta}$,
+\[
+\gray(\pv)
+= -2G\,\rho_0\,\hat{d}\int_0^{2\pi}\!\!\int_{\theta_0}^{\pi}
+\sqrt{R^2 - D^2\sin^2\theta}\,\cos\theta\,\sin\theta\,\dd\theta\,\dd\phi
+\]
+
+Evaluate the $\phi$-integral and set
+\[
+I:=\int_{\theta_0}^{\pi}
+\sqrt{R^2 - D^2\sin^2\theta}\,\cos\theta\,\sin\theta\,\dd\theta
+\]
+
+With $u=R^2 - D^2\sin^2\theta$ we have $\dd u=-2D^2\sin\theta\cos\theta\,\dd\theta$ and
+\[
+I=\frac{-1}{2D^2}\int_{u(\theta_0)}^{u(\pi)} u^{1/2}\,\dd u
+=\frac{-1}{2D^2}\cdot\frac{2}{3}\Big[u^{3/2}\Big]_{u=0}^{u=R^2}
+=-\frac{R^3}{3D^2}
+\]
+
+Hence
+\[
+\gray(\pv)=-2G\,\rho_0\,\hat{d}\,2\pi\,I
+= \frac{4\pi G\rho_0 R^3}{3D^2}\,\hat{d}
+= \,G\,\frac{M}{D^2}\,\hat{d}
+\]
+
+since $\rho_0=3 M/(4\pi R^3)$. Therefore, the ray-based 
+field reproduces the classical inverse-square law outside the sphere:
+\[
+\gv(\pv)=G\,\dfrac{M}{D^2}\,\hat{d}
+\]
+
+\end{example}
+\vspace{1em}
+
+\begin{proposition}[Equivalence]\label{prop:equivalence}
+
+Let $N\ge 3$ and let $\rho\in L^1(\R^N)$ have compact support $V$. 
+
+For any $\pv\notin \operatorname{supp}\rho$, the ray-based field 
+\eqref{eq:rayfield-static},
+\[
+\gray(\pv)=
+-G\int_{\Omega}\!\left(\int_{L(\pv,\uh)} \rho(\xv)\,\dd\ell\right)\uh\,\dd\Omega
+\]
+
+coincides with the Newtonian field \cite{LandauLifshitz1},
+\begin{equation}
+\gv(\pv)=-G\int_V \frac{\pv-\xv}{\|\pv-\xv\|^N}\,\rho(\xv)\,\dd V
+\label{eq:newtonian}
+\end{equation}
+
+\end{proposition}
+
+\begin{proof}
+
+To demonstrate the equivalence, we will expand the line integral in the ray-based field 
+definition, then we will rewrite the classical Newtonian field in spherical coordinates, 
+and finally we will compare the two expressions to show they are identical.
+
+\emph{Step 1} -- Expand the line integral in the ray-based field.
+
+In spherical coordinates centered at $\pv$, any point $\xv$ over the ray is 
+parameterized by the arc length by:
+\[
+\xv = \pv - s \uh
+\]
+
+where $s = \|\pv - \xv\| \geq 0$ is the radial distance, and $\uh$ is the unit 
+vector indicating the direction from $\xv$ to $\pv$.
+
+The differential arc length along the ray $L(\pv, \uh)$ is $\dd\ell = \dd s$. 
+Substituting this into the ray-based field:
+\[
+\gray(\pv) = -G \int_{\Omega} \left( \int_{I(\uh)} \rho(\pv - s \uh) \, \dd s \right) \uh \, \dd\Omega
+\]
+
+where $I(\uh)$ is the interval of $s$ such that $\pv - s \uh \in V$.
+
+\emph{Step 2} -- Express the Newtonian field in spherical coordinates.
+
+In the Newtonian field, substitute $\xv = \pv - s \uh$ and $\|\pv - \xv\| = s$. Then:
+\[
+\frac{\pv - \xv}{\|\pv - \xv\|^N} = \frac{s \uh}{|s|^N} = \frac{\uh}{|s|^{N-1}}
+\]
+
+The volume element in spherical coordinates is $\dd V = |s|^{N-1} \dd s \, \dd\Omega$. 
+Substituting these into the Newtonian field:
+\[
+\gv(\pv) = -G \int_V \frac{\uh}{|s|^{N-1}} \, \rho(\pv - s \uh) \, |s|^{N-1} \dd s \, \dd\Omega
+\]
+
+Simplifying:
+\[
+\gv(\pv) = -G \int_{\Omega} \int_{I(\uh)} \uh \, \rho(\pv - s \uh) \, \dd s \, \dd\Omega
+\]
+
+\emph{Step 3} -- Verify equivalence.
+
+The ray-based field is:
+\[
+\gray(\pv) = -G \int_{\Omega} \left( \int_{I(\uh)} \rho(\pv - s \uh) \, \dd s \right) \uh \, \dd\Omega
+\]
+
+The Newtonian field is:
+\[
+\gv(\pv) = -G \int_{\Omega} \int_{I(\uh)} \uh \, \rho(\pv - s \uh) \, \dd s \, \dd\Omega
+\]
+
+By the Tonelli and Fubini theorems (\cite{Rudin}, \cite{Folland}), the order of 
+integration can be interchanged under the given assumptions 
+(e.g., $\rho \in L^1(\R^N)$ with compact support or sufficient decay at infinity). 
+Thus, the two expressions are identical.
+
+\end{proof}
+
+\section{Relativistic case}
+
+Building upon the static case, this section explores the relativistic extension 
+of the ray-based gravitational field.
+In contrast to the static case, where closed-form solutions were derived and 
+shown to be equivalent to the classical Newtonian gravitational field, the 
+relativistic case does not yet yield results of this kind. Instead, we present 
+preliminary indications and formulations that suggest the framework may be 
+extended to more general scenarios.
+
+We consider two reference frames:
+
+\begin{itemize}
+\item $S$ - \emph{Rest frame}: The reference frame in which the gravitational 
+    field is measured. The evaluation point $\pv$ is at rest and receives 
+    isotropic radiation of rays with constant velocity $c$.
+\item $S'$ - \emph{Moving frame}: The reference frame in which the mass moves 
+    at velocity $\vv=v\,\vh$ relative to $S$.
+\end{itemize}
+
+Rays are parameterized based on their direction $\uh$ and time $t$ (negative 
+values represent the past, and positive values represent the future).
+
+In the $S$ frame, the ray is parameterized as
+$$
+r(\uh,t)=\pv+t\,c\,\uh, \quad t\le 0
+$$
+
+In the $S'$ frame, the same ray is parameterized as
+$$
+r'(\uh,t)=\pv+t\,c\,h(\uh;\vv), \quad t\le 0
+$$
+
+where $h()$ is the angular aberration coefficient.
+When the mass moves with velocity $\vv$ relative to the 
+observation point, the angle of the ray observed at $\pv$ differs from the 
+angle of the ray that has traversed the mass. This discrepancy is called angular 
+aberration and is modeled using the Lorentz transformation.
+
+\subsection{Angular aberration}
+
+The results presented in this section are well-established and can be found in 
+\cite{LandauLifshitz2}. These results will serve as a foundational basis for the 
+relativistic formulations and derivations developed in subsequent sections.
+
+Given a velocity $\vv = v\,\vh$, we denote the decomposition of any 
+vector $\vec{w}$ into its projections along $\vv$ and its perpendicular plane as
+$$
+\vec{w} = \vec{w}_\perp + \vec{w}_\parallel = |\vec{w}|\sin(\theta)\;\vh_\perp + |\vec{w}|\cos\theta\;\vh, \quad \cos\theta=\hat{w}\cdot\vh
+$$
+
+The function $h()$ transforms a direction $\uh$ in $S$ (the rest frame) to 
+the corresponding direction in $S'$ (the moving frame).
+$$
+h(\uh;\vv) =
+\frac{\sqrt{1-\beta^2}\;\uh_\perp+(\cos\theta-\beta)\,\vh}{1-\beta\cos\theta},
+\qquad \beta=\frac{v}{c},
+\quad \cos\theta=\uh\cdot\vh
+$$
+
+The inverse transformation ($S'\!\to\!S$) is
+$$
+h^{-1}(\uh';\vv)=
+\frac{\sqrt{1-\beta^2}\;\uh'_\perp+(\cos\theta'+\beta)\,\vh}{1+\beta\cos\theta'},
+\qquad \beta=\frac{v}{c},
+\quad \cos\theta'=\uh'\cdot\vh
+$$
+
+If the polar axis is aligned with $\vv$, i.e., $\vh\parallel\hat{z}$, then
+$$
+\phi'=\phi,\qquad
+\cos\theta'=\frac{\cos\theta-\beta}{1-\beta\cos\theta},\qquad
+\sin\theta'=\frac{\sqrt{1-\beta^{2}}\;\sin\theta}{1-\beta\cos\theta}
+$$
+
+$$
+\phi=\phi',\qquad
+\cos\theta=\frac{\cos\theta'+\beta}{1+\beta\cos\theta'},
+\qquad
+\sin\theta=\frac{\sqrt{1-\beta^2}\sin\theta'}{1+\beta\cos\theta'}
+$$
+
+The Jacobian of the solid angle transformation is
+$$
+\frac{d\Omega'}{d\Omega}=\frac{1-\beta^2}{(1-\beta\cos\theta)^2}
+\quad\Longrightarrow\quad
+\frac{d\Omega}{d\Omega'}=\frac{(1+\beta\cos\theta')^2}{1-\beta^2}
+$$
+
+\subsection{Ray-based gravitational field}
+
+\begin{definition}
+
+Let $\rho(\xv)$ be a mass density supported in a domain $V\subset\R^N$, $N\ge 3$. 
+Outside this domain the density is zero, $\rho(\xv)=0$ for $\xv\notin V$.
+
+We define the \emph{ray-based gravitational field} at observation time $t_0$ by
+\begin{equation}
+\boxed{
+\gray(\pv,t_0)=
+-G\int_{\Omega}\!\left(\int_{L(\pv,\,h(\uh;\vv))}\!\rho(\xv',t_{\mathrm{ret}})\,\dd\ell'\right)\uh\,\dd\Omega,
+\quad t_{\mathrm{ret}}=t_0-\ell'/c}
+\label{eq:rayfield-rel}
+\end{equation}
+
+where $\pv \in \R^N$, $\Omega=\sphere$ is the unit angular domain, $L(\pv,\uh)$ 
+is the ray $\{\,\pv+c\;t\,\uh:\ t\le 0\,\}$, $\dd\ell$ is the arc length along the ray, 
+$G$ is a coupling factor, and $h(\uh; \vv)$ is the angular aberration function 
+that transforms the direction $\uh$ to the corresponding direction in the moving 
+frame.
+
+We observe that the calculation of the ray-based gravitational field is 
+performed in two reference frames. The contribution of each ray is computed 
+in the frame $S'$, and the summation of contributions is carried out in the 
+frame $S$. The following result reformulates the definition entirely in $S'$.
+
+\end{definition}
+\vspace{1em}
+
+\begin{proposition}[Alternative formulation]
+
+Let $\rho(\xv)$ be a mass density supported in a domain $V\subset\R^N$, $N\ge 3$. 
+Outside this domain, the density is zero, $\rho(\xv)=0$ for $\xv\notin V$.
+
+The ray-based gravitational field at observation time $t_0$ is:
+\begin{equation}
+\boxed{
+\gray(\pv,t_0)=\frac{-G}{1-\beta^2}\int_{\Omega'}\!\left(\int_{L(\pv,\uh')}\rho(\xv',t_{\mathrm{ret}})\,\dd\ell'\right)
+\left(\sqrt{1-\beta^2}\,\uh'_\perp+(\cos\theta'+\beta)\,\vh\right)(1+\beta\cos\theta')\,\dd\Omega'}
+\label{eq:rayfield-rel-alt}
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+
+We apply a change of variables to the ray-based gravitational field definition 
+to obtain the proposition statement.
+
+Starting from the original definition \eqref{eq:rayfield-rel}:
+$$
+\gray(\pv,t_0)
+= -G \int_{\Omega} \left( \int_{L(\pv,\,h(\uh;\vv))} \rho(\xv',t_{\text{ret}})\, d\ell' \right) \uh\; \dd\Omega
+$$
+
+we perform the change of variables $\uh'=h(\uh; \vv)$, 
+i.e., $\uh = h^{-1}(\uh';\vv)$, and use the Jacobian 
+$d\Omega = \frac{d\Omega}{d\Omega'}\, d\Omega'$ with
+$$
+h^{-1}(\uh';\vv)=
+\frac{\sqrt{1-\beta^2}\;\uh'_\perp+(\cos\theta'+\beta)\,\vh}{1+\beta\cos\theta'},
+\qquad
+\frac{d\Omega}{d\Omega'}=\frac{(1+\beta\cos\theta')^2}{1-\beta^2}.
+$$
+
+Thus, we have:
+$$
+\gray(\pv,t_0)
+= -G \int_{\Omega'}\!\left(\int_{L(\pv,\,\uh')} \rho(\xv',t_{\text{ret}})\, \dd\ell' \right)\,
+h^{-1}(\uh';\vv)\;
+\frac{d\Omega}{d\Omega'}\; \dd\Omega'
+$$
+
+and, simplifying the factors we obtain the final expression:
+$$
+\gray(\pv,t_0)
+= \frac{-G}{1-\beta^2} \int_{\Omega'}\!\left(\int_{L(\pv,\,\uh')} \rho(\xv',t_{\text{ret}})\, \dd\ell' \right)
+\left(\sqrt{1-\beta^2}\;\uh'_\perp+(\cos\theta'+\beta)\,\vh\right)
+(1+\beta\cos\theta')\; \dd\Omega'
+$$
+
+\end{proof}
+
+\subsection{Examples}
+
+We calculate the ray-based gravitational field at time $t_0$ generated by a 
+sphere of radius $R$, mass $M$, and uniform density moving at a constant 
+velocity $\vv$, acting on a point $\pv$ located at a distance $D$ from the 
+center of the sphere, with $D > R$. The sphere is moving towards the 
+observation point.
+
+We perform a translation to place the point $\pv$ at the origin, followed 
+by a rotation to align the $z$-axis with $\vv$. These transformations 
+result in:
+\begin{itemize}
+\item The point $\pv$ remains at the origin, $\pv = (0,0,0)$,
+\item The velocity vector of the sphere is $\vv = -v\,\hat{z}$, with $v \ge 0$
+\item At $t_0$ the center of the sphere is located at $(0, 0, D) = \vec{d} = D \hat{d} = D \hat{z}$.
+\end{itemize}
+\vspace{1em}
+
+\begin{example}[mixed-frames]\label{example:mixed_frames}
+We resolve the case using the ray-based field definition \eqref{eq:rayfield-rel}.
+
+We parametrize the ray using the aberrated direction $h(\uh;\vv)$ while
+keeping the sphere worldline as in $S$ (hence “mixed-frames”). We seek the
+intersection points between the sphere and the ray.
+\[
+\left.
+\begin{array}{rrl}
+\text{Ray:} & \xv &= \pv+t\,c\,h(\uh,\vv)\\[3pt]
+\text{Sphere:} & x^2+y^2+(z - D + v\, t)^2 &= R^2
+\end{array}
+\right\},
+\quad t \le 0
+\]
+
+We change coordinates using $\ell = -t\,c$ (arc length):
+\[
+\left.
+\begin{array}{rrl}
+\text{Ray:} & \xv &= \pv-\ell\,h(\uh,\vv)\\[3pt]
+\text{Sphere:} & x^2+y^2+(z-D-\beta\, \ell)^2 &= R^2
+\end{array}
+\right\},
+\quad \ell \ge 0
+\]
+
+Aberration formulas apply for $\vv$ aligned to the polar axis, but this is not 
+the current case, $\vv=-v\,\hat{z}$. However, we can handle this case by
+replacing $\beta\to-\beta$ everywhere in the aberration formulas. Thus,
+$$
+  h(\uh;-v \hat{z})=
+  \dfrac{\sqrt{1-\beta^2}\,\uh_\perp+(\cos\theta+\beta)\,\hat{z}}{1+\beta\cos\theta}.
+$$
+$$
+  \cos\theta'=\dfrac{\cos\theta+\beta}{1+\beta\cos\theta},\quad
+  \sin\theta'=\dfrac{\sqrt{1-\beta^{2}}\,\sin\theta}{1+\beta\cos\theta}
+$$
+$$
+  \dfrac{d\Omega'}{d\Omega}=\dfrac{1-\beta^2}{(1+\beta\cos\theta)^2}
+  \quad\Longrightarrow\quad
+  \frac{d\Omega}{d\Omega'}=\frac{(1-\beta\cos\theta')^2}{1-\beta^2}
+$$
+
+We write $\uh$ in angular coordinates,
+\[
+\uh = \big(\sin\theta\cos\phi,\ \sin\theta\sin\phi,\ \cos\theta\big)
+\quad \theta \in [0,\pi], \ \phi \in [0,2\pi)
+\]
+
+We expand $\xv$ in these coordinates, using the aberration formula for 
+$\vv=-v\,\hat{z}$ (see remark above):
+\[
+\xv(\uh, \ell) = \Big(-\ell\,\frac{\sqrt{1-\beta^2}}{1+\beta\cos\theta}\sin\theta\cos\phi, \ -\ell\,\frac{\sqrt{1-\beta^2}}{1+\beta\cos\theta}\sin\theta\sin\phi,\ -\ell\,\frac{\cos\theta+\beta}{1+\beta\cos\theta}\Big)
+\]
+
+Finally, we substitute $\xv(\uh,\ell)$ into the sphere's equation. 
+This yields a quadratic polynomial in $\ell$.
+\[
+\ell^2 \frac{1-\beta^2}{(1+\beta\cos\theta)^2}\sin^2\theta+\left(-\frac{\cos\theta+\beta}{1+\beta\cos\theta}\ell-\beta\ell-D\right)^2=R^2
+\]
+
+Reorganizing terms by the coefficient of $\ell$, we obtain:
+\[
+A(\theta)\,\ell^2+2B(\theta)\,\ell+C(\theta)=0,
+\quad
+\begin{cases}
+A(\theta)=(1-\beta^2)(1-\cos^2\theta) + (\cos\theta + \beta^2\cos\theta + 2\beta)^2\\[2pt]
+B(\theta)=D\,(1+\beta\cos\theta)\,(\cos\theta + \beta^2\cos\theta + 2\beta)\\[2pt]
+C(\theta)=(1+\beta\cos\theta)^2(D^2-R^2)
+\end{cases}
+\]
+
+The chord length traversed by the ray is:
+\[
+L(\theta) = 2\sqrt{\left(\frac{B(\theta)}{A(\theta)}\right)^2 - \frac{C(\theta)}{A(\theta)}}
+\]
+
+The range of $\theta$ is determined by ensuring the discriminant is positive. 
+Let $\theta_0$ be the first root less than $\pi$ such that the discriminant 
+is zero. 
+
+The gravitational field is:
+\[
+\gray(\pv, 0) = -G \rho_{\scriptscriptstyle 0} \int_0^{2\pi}\int_{\theta_0}^{\pi} L(\theta) \left(\sin\theta\cos\phi\,\hat{\mathbf{i}} + \sin\theta\sin\phi\,\hat{\mathbf{j}}+ \cos\theta\,\hat{\mathbf{k}}\right)\sin\theta\, \dd\theta\, \dd\phi
+\]
+
+The components $\hat{\mathbf{i}}$ and $\hat{\mathbf{j}}$ cancel due to the 
+$\phi$ factor.
+
+Using the substitution $\mu = \cos\theta$ and denoting $s=\tfrac{D}{R}$:
+\[
+L(\mu) = \frac{2 R \sqrt{B^2(\mu) - A(\mu) C(\mu)}}{A(\mu)},
+\quad
+\begin{cases}
+A(\mu)=(1-\beta^2)(1-\mu^2)+(\mu+\beta^2\mu+2\beta)^2\\[2pt]
+B(\mu)=s\,(1+\beta\mu)(\mu+\beta^2\mu+2\beta)\\[2pt]
+C(\mu)=(1+\beta\mu)^2(s^2-1)
+\end{cases}
+\]
+
+We determine the range of $\mu$ by ensuring the discriminant is positive. 
+This results in a degree-4 polynomial in $\mu$. Let $\mu_0$ be the first 
+real root greater than $-1$. 
+
+The gravitational field simplifies to:
+\[
+\gray(\pv, 0) = -2 \pi \hat{d}\,G \rho_{\scriptscriptstyle 0} \int_{-1}^{\mu_0} L(\mu)\, \mu \, \dd\mu
+\]
+
+Numerical integrations indicate qualitative agreement with the angular scaling 
+of the linearized Liénard--Wiechert field:
+\[
+\gray(\pv)\ \propto\ -\frac{GM}{D^2}\,\frac{1-\beta^2}{\big(1+\beta\cos\theta\big)^3},
+\qquad \beta=v/c
+\]
+
+when interpreted as a shape/angle guide rather than an identity. 
+Asymptotically (small $\beta$ and/or far field $D\gg R$), the mixed-frames result
+approaches the Liénard--Wiechert formula.
+
+\end{example}
+\vspace{1em}
+
+\begin{example}[single-frame]
+We resolve the same problem as in the previous example using the alternative definition of the gravitational field \eqref{eq:rayfield-rel-alt}.
+
+In the $S'$ frame, we parametrize the rays and the sphere to determine the 
+amount of mass traversed by each ray. We seek the intersection points 
+between the sphere and the ray.
+\[
+\left.
+\begin{array}{rcl}
+\text{Ray:} & \xv &= \pv+t\,c\,\uh' \\[3pt]
+\text{Sphere:} & x^2+y^2+(z - D + v\, t)^2 &= R^2
+\end{array}
+\right\},
+\quad t \le 0
+\]
+
+We change coordinates using $\ell = -t\,c$ (arc length):
+\[
+\left.
+\begin{array}{rcl}
+\text{Ray:} & \xv &= \pv-\ell\,\uh' \\[3pt]
+\text{Sphere:} & x^2+y^2+(z-D-\beta\, \ell)^2 &= R^2
+\end{array}
+\right\},
+\quad \ell \ge 0
+\]
+
+Aberration formulas apply for $\vv$ aligned to the polar axis, but this 
+is not the current case, $\vv=-v\,\hat{z}$. However, we can handle this 
+case by replacing $\beta\to-\beta$ everywhere in the alternative definition 
+\eqref{eq:rayfield-rel-alt}.
+
+We write $\uh'$ in polar coordinates,
+\[
+\uh' = \big(\sin\theta\cos\phi,\ \sin\theta\sin\phi,\ \cos\theta\big),
+\quad \theta \in [0,\pi], \ \phi \in [0,2\pi)
+\]
+
+We expand $\xv$ in these coordinates as,
+\[
+\xv(\uh', \ell) = \Big(-\ell\,\sin\theta\cos\phi,\, -\ell\,\sin\theta\sin\phi,\,-\ell\,\cos\theta\Big)
+\]
+
+Finally, we substitute $\xv(\uh',\ell)$ into the sphere equation. 
+This yields in a quadratic polynomial in $\ell$
+\[
+\ell^2 \sin^2\theta+\left(-\cos\theta\,\ell-\beta\ell-D\right)^2=R^2
+\]
+
+Rearranging terms by the coefficient of $\ell$, we obtain:
+\[
+A(\theta)\,\ell^2+2B(\theta)\,\ell+C(\theta)=0,
+\quad
+\begin{cases}
+A(\theta)=1 + 2\beta\cos\theta + \beta^2\\[2pt]
+B(\theta)=D\,(\cos\theta + \beta)\\[2pt]
+C(\theta)=D^2-R^2
+\end{cases}
+\]
+
+The chord length traversed by the ray is:
+\[
+L(\theta) = 2\sqrt{\left(\frac{B(\theta)}{A(\theta)}\right)^2 - \frac{C(\theta)}{A(\theta)}}
+\]
+
+Using the substitution $\mu = \cos\theta$ and defining $s=\tfrac{D}{R}$:
+\[
+L(\mu) =
+\frac{2R\,\sqrt{A(\mu)-s^2\big(1-\mu^2\big)}}{A(\mu)},
+\quad
+A(\mu)=1 + 2\beta\mu + \beta^2
+\]
+
+We determine the range of $\mu$ by ensuring the discriminant is positive and 
+selecting the first root greater than $-1$:
+\[
+\mu_0 = \frac{-\beta - \sqrt{(s^2-1)(s^2-\beta^2)}}{s^2}
+\]
+
+Using the alternative definition of the gravitational field:
+\[
+\gray(\pv,t_0)
+= -\frac{G}{1-\beta^2}\,\hat{d}\,2\pi\,\rho_{\scriptscriptstyle 0} \int_{-1}^{\mu_0}\underbrace{L(\mu)}_{\text{line integral}}\underbrace{(\mu-\beta)}_{h^{-1}(\uh')}\,\underbrace{(1-\beta\mu)\; \dd\mu}_{\frac{d\Omega}{d\Omega'}d\Omega'}
+\]
+
+The numerical results obtained are the same as those in Example \ref{example:mixed_frames}.
+
+\end{example}
+
+\section*{Final Notes}
+
+We outlined a ray-transport construction that reproduces the Newtonian field in 
+the static case and there are indications that it can be extended to the 
+relativistic case. The following are aspects to consider in future research. 
+These pointers are deliberately high-level and speculative, offered as indications 
+of where the framework might be extended rather than as claims or detailed 
+developments.
+
+\textbf{Inner case}. The equivalence result in Proposition \ref{prop:equivalence}
+is valid only outside the support of the mass density. Verify that the same
+result is obtained inside the support.
+
+\textbf{Cross-links to other areas of mathematics}. The exploration of links 
+with other mathematical frameworks remains open. In particular, it is natural 
+to relate our line-integral operator to integral geometry and to the Radon/X-ray 
+transform.
+
+\textbf{Waves instead of rays}. Consider a wave as the transport element. Try to
+obtain the equivalence statement in the static case. Explore whether it has any 
+relation to the wave-particle duality. Investigate all forms of \emph{ray/wave} 
+satisfying the equivalence result.
+
+\textbf{$n$-dimensional manifold instead of a ray}. Consider generalizing the
+ray concept to an $n$-dimensional manifold. This generalization could be 
+particularly useful in non-Euclidean geometries. For instance, in the 
+one-dimensional case, the manifold could correspond to a geodesic. Such an 
+approach would facilitate connections with geometric formulations, such as 
+those found in General Relativity.
+
+\textbf{Equivalence with the standard model}. The equivalence between the 
+ray-based model and the standard formulation of gravity (GR) should be 
+demonstrated, or at least the domain of validity of the ray-based model should 
+be delimited. This could involve expanding the notion of a ray or 
+reformulating or extending the definition of the ray-based field.
+
+\begin{thebibliography}{9}
+\bibitem{Folland}
+G.~B. Folland, \emph{Real Analysis: Modern Techniques and Their Applications}, 2nd ed., Wiley, 1999.
+
+\bibitem{Rudin}
+W.~Rudin, \emph{Real and Complex Analysis}, 3rd ed., McGraw--Hill, 1987.
+
+\bibitem{LandauLifshitz1}
+L.~D. Landau and E.~M. Lifshitz, \emph{Mechanics}, 3rd ed., Pergamon, 1976.
+
+\bibitem{LandauLifshitz2}
+L.~D. Landau and E.~M. Lifshitz, \emph{The Classical Theory of Fields}, 4th ed., Pergamon, 1975.
+\end{thebibliography}
+
+\end{document}
