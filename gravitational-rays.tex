@@ -39,22 +39,19 @@
 
 \title{Ray-Based Modeling of Gravitational Fields}
 \author{Gerard Torrent--Gironella\\ \small\texttt{gerard@generacio.com}}
-\date{November 5, 2025}
+\date{November 8, 2025}
 
 \begin{document}
 \maketitle
 
 \begin{abstract}
-We propose a novel ray-based framework for modeling gravitational fields, 
-where the field at an observation point is defined as the aggregation of 
-line-integrated mass contributions along all incoming directions. In the 
-static case, this formulation reproduces the classical Newtonian 
-inverse-square law, demonstrating consistency with established gravitational 
-theory. A preliminary exploration suggests that the framework may be 
-extended to account for relativistic effects, incorporating special-relativistic 
-aberration and retarded times to describe the influence of uniformly moving 
-sources. This work represents an initial step in ray-based gravitational 
-modeling, open to further refinement and generalization.
+A novel framework for modeling gravitational fields is developed using a 
+ray-based approach. At any observation point, the field is defined as the 
+direction-weighted aggregation of line-integrated mass contributions along all 
+incoming directions. In the static case, the formulation reproduces the 
+classical Newtonian gravitational field and shows potential to replicate also 
+relativistic scenarios. The approach represents an initial step in ray-based 
+gravitational modeling, open to further refinement and generalization.
 \end{abstract}
 
 \section{Introduction}
@@ -82,8 +79,8 @@ Next, we incorporate finite propagation and uniform source motion. The kinematic
 is organized through special-relativistic aberration of directions between the 
 observation frame and a co-moving integration frame, together with retarded time 
 along each ray. This leads to a mixed-frame definition that can be reformulated 
-entirely within the moving frame. A worked example suggest consistency with 
-the linearized Liénard--Wiechert field.
+entirely within the moving frame. A worked example ilustrates the relativistic 
+case using both the original definition and the alternative formulation.
 
 We conclude with a brief final section that merely points to possible avenues 
 for further investigation. These pointers are deliberately high-level and 
@@ -105,9 +102,9 @@ We define the \emph{ray-based gravitational field} by
 \label{eq:rayfield-static}
 \end{equation}
 
-where $\pv \in \R^N$, $\Omega=\sphere$ is the unit angular domain, $L(\pv,\uh)$ is the ray 
-$\{\,\pv+c\;t\,\uh:\ t\le 0\,\}$, $\dd\ell$ is the arc length along the ray, and
-$G$ is a coupling factor.
+where $\pv \in \R^N$, $\Omega=\sphere$ is the unit angular domain, $L(\pv,\uh)$ 
+is the ray $\{\,\pv+c\;t\,\uh:\ t\le 0\,\}$, $\dd\ell$ is the arc length along 
+the ray, and $G$ is a coupling factor.
 
 \end{definition}
 \vspace{1em}
@@ -115,8 +112,8 @@ $G$ is a coupling factor.
 \begin{example}
 
 Let $V$ be a solid sphere of radius $R$ and total mass $M$ with constant density 
-$\rho_0=\frac{3M}{4\pi R^3}$. Compute the ray-based gravitational field at a point 
-located at distance $D > R$ from the sphere's center.
+$\rho_0=\frac{3M}{4\pi R^3}$. Compute the ray-based gravitational field at a 
+point located at distance $D > R$ from the sphere's center.
 
 We perform a translation to place the point $\pv$ at the origin, followed by a 
 rotation to place the sphere's center along the positive z-axis. These changes 
@@ -142,8 +139,8 @@ s_\pm(\theta)=-D\cos\theta \pm \sqrt{R^2 - D^2\sin^2\theta}
 \]
 
 which are real iff $D\sin\theta\le R$, i.e. $\theta\in[\theta_0,\pi]$ with 
-$\theta_0=\pi - \arcsin(R/D)$. For such directions, the line-integrated density equals the 
-chord length inside the sphere times $\rho_0$:
+$\theta_0=\pi - \arcsin(R/D)$. For such directions, the line-integrated density 
+equals the chord length inside the sphere times $\rho_0$:
 \[
 \int_{L(\pv,\uh)}\rho_0\,\dd\ell
 =\int_{s_-}^{s_+}\rho_0\,\dd s
@@ -152,8 +149,9 @@ chord length inside the sphere times $\rho_0$:
 L(\theta)=s_+ - s_- = 2\sqrt{R^2 - D^2\sin^2\theta}
 \]
 
-By symmetry, $\gray(\pv)$ is parallel to $\hat{d}$. Using spherical coordinates around 
-$\hat{d}$, $\dd\Omega=\sin\theta\,\dd\theta\,\dd\phi$, the ray-based field is
+By symmetry, $\gray(\pv)$ is parallel to $\hat{d}$. Using spherical coordinates 
+around $\hat{d}$, $\dd\Omega=\sin\theta\,\dd\theta\,\dd\phi$, the ray-based 
+field is
 \[
 \gray(\pv)
 = -G\,\rho_0\,\hat{d}\int_0^{2\pi}\!\!\int_{\theta_0}^{\pi}
@@ -217,9 +215,10 @@ coincides with the Newtonian field \cite{LandauLifshitz1},
 
 \begin{proof}
 
-To demonstrate the equivalence, we will expand the line integral in the ray-based field 
-definition, then we will rewrite the classical Newtonian field in spherical coordinates, 
-and finally we will compare the two expressions to show they are identical.
+To demonstrate the equivalence, we will expand the line integral in the ray-based 
+field definition, then we will rewrite the classical Newtonian field in spherical 
+coordinates, and finally we will compare the two expressions to show they are 
+identical.
 
 \emph{Step 1} -- Expand the line integral in the ray-based field.
 
@@ -242,7 +241,8 @@ where $I(\uh)$ is the interval of $s$ such that $\pv - s \uh \in V$.
 
 \emph{Step 2} -- Express the Newtonian field in spherical coordinates.
 
-In the Newtonian field, substitute $\xv = \pv - s \uh$ and $\|\pv - \xv\| = s$. Then:
+In the Newtonian field, substitute $\xv = \pv - s \uh$ and $\|\pv - \xv\| = s$. 
+Then:
 \[
 \frac{\pv - \xv}{\|\pv - \xv\|^N} = \frac{s \uh}{|s|^N} = \frac{\uh}{|s|^{N-1}}
 \]
@@ -383,10 +383,10 @@ We define the \emph{ray-based gravitational field} at observation time $t_0$ by
 \end{equation}
 
 where $\pv \in \R^N$, $\Omega=\sphere$ is the unit angular domain, $L(\pv,\uh)$ 
-is the ray $\{\,\pv+c\;t\,\uh:\ t\le 0\,\}$, $\dd\ell$ is the arc length along the ray, 
-$G$ is a coupling factor, and $h(\uh; \vv)$ is the angular aberration function 
-that transforms the direction $\uh$ to the corresponding direction in the moving 
-frame.
+is the ray $\{\,\pv+c\;t\,\uh:\ t\le 0\,\}$, $\dd\ell$ is the arc length along 
+the ray, $G$ is a coupling factor, and $h(\uh; \vv)$ is the angular aberration 
+function that transforms the direction $\uh$ to the corresponding direction in 
+the moving frame.
 
 We observe that the calculation of the ray-based gravitational field is 
 performed in two reference frames. The contribution of each ray is computed 
@@ -592,7 +592,8 @@ approaches the Liénard--Wiechert formula.
 \vspace{1em}
 
 \begin{example}[single-frame]
-We resolve the same problem as in the previous example using the alternative definition of the gravitational field \eqref{eq:rayfield-rel-alt}.
+We resolve the same problem as in the previous example using the alternative 
+definition of the gravitational field \eqref{eq:rayfield-rel-alt}.
 
 In the $S'$ frame, we parametrize the rays and the sphere to determine the 
 amount of mass traversed by each ray. We seek the intersection points 
@@ -697,11 +698,6 @@ result is obtained inside the support.
 with other mathematical frameworks remains open. In particular, it is natural 
 to relate our line-integral operator to integral geometry and to the Radon/X-ray 
 transform.
-
-\textbf{Waves instead of rays}. Consider a wave as the transport element. Try to
-obtain the equivalence statement in the static case. Explore whether it has any 
-relation to the wave-particle duality. Investigate all forms of \emph{ray/wave} 
-satisfying the equivalence result.
 
 \textbf{$n$-dimensional manifold instead of a ray}. Consider generalizing the
 ray concept to an $n$-dimensional manifold. This generalization could be 
