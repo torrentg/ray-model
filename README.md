@@ -10,7 +10,7 @@ If you are an [arXiv.org](https://arxiv.org) endorser and consider this work of 
 
 ## Deliverables
 
-To compile the LaTeX [document](gravitational-rays.pdf):
+To compile the LaTeX [document](https://raw.githubusercontent.com/torrentg/ray-model/refs/heads/main/gravitational-rays.pdf):
 
 ```bash
 pdflatex gravitational-rays.tex
